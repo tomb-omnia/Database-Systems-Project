@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sqlite3
+from tabulate import tabulate
 
 
 # Function Definitions
@@ -32,13 +33,12 @@ def list_courses() -> None:
     result = cursor.fetchall()
 
     print("Listing courses...")
-    print("Course ID, Name, Credits")
-    for item in result:
-        print(item)
+    col_names = [desc[0] for desc in cursor.description]
+    print(tabulate(result, headers=col_names, tablefmt="simple"))
     connection.close()
     
 
-def parse_user_input() -> None:
+def parse_user_input(student_id) -> None:
     user_input = input("Enter your Choice: ").lower()
 
     match user_input:
@@ -47,7 +47,9 @@ def parse_user_input() -> None:
         case "l":
             clear_screen()
             list_courses()
-            #input("Enter any text to continue: ")
+        case "m":
+            clear_screen()
+            display_classes(student_id)
 
 
 def display_main_menu(active_student: int) -> None:
@@ -91,7 +93,20 @@ def create_student() -> int:
     assert new_student_id is not None
     return new_student_id
 
+def display_classes(student_id: int) -> None:
+    conn = sqlite3.connect("school_database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT Student.first_name, Student.last_name FROM Student WHERE student_id = ?", (student_id,))
+    student_name = cursor.fetchone()
+    cursor.execute("SELECT course_id, course_name, credits FROM StudentEnrollments WHERE student_id = ?", (student_id, ))
+    result = cursor.fetchall()
 
+    print(f"Showing Enrollments for {student_name[0]} {student_name[1]}.\nStudent ID: {student_id}")
+    col_names = [desc[0] for desc in cursor.description]
+    print(tabulate(result, headers=col_names, tablefmt="simple"))
+
+def withdraw_student(student_id: int) -> bool:
+    pass
 # Main Code
 
 student_id = -2
@@ -124,7 +139,7 @@ while True:
 while True:
     print("#########")
     display_main_menu(active_student=student_id)
-    parse_user_input()
+    parse_user_input(student_id)
 
 
 

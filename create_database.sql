@@ -61,5 +61,5 @@ SELECT
     Courses.course_name,
     Courses.credits
 FROM Enrollments
-JOIN Student ON Enrollments.student_id = Students.student_id
+JOIN Student ON Enrollments.student_id = Student.student_id
 JOIN Courses ON Enrollments.course_id  = Courses.course_id;
