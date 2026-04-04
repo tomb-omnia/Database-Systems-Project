@@ -2,6 +2,8 @@ import os
 import subprocess
 import sqlite3
 
+
+# Function Definitions
 def initalize_database() -> None:
     connection = sqlite3.connect("school_database.db")
     cursor = connection.cursor()
@@ -23,8 +25,32 @@ def student_exists(student_id:int ) -> bool:
 
     return result is not None
 
+def list_courses() -> None:
+    connection = sqlite3.connect("school_database.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM COURSES")
+    result = cursor.fetchall()
+
+    print("Listing courses...")
+    print("Course ID, Name, Credits")
+    for item in result:
+        print(item)
+    connection.close()
+    
+
+def parse_user_input() -> None:
+    user_input = input("Enter your Choice: ").lower()
+
+    match user_input:
+        case "x":
+            exit()
+        case "l":
+            clear_screen()
+            list_courses()
+            #input("Enter any text to continue: ")
+
+
 def display_main_menu(active_student: int) -> None:
-    clear_screen()
     connection = sqlite3.connect("school_database.db")
     cursor = connection.cursor()
     cursor.execute("SELECT Student.first_name, Student.last_name FROM Student WHERE student_id = ?", (active_student,))
@@ -65,10 +91,8 @@ def create_student() -> int:
     assert new_student_id is not None
     return new_student_id
 
-def run_query(query_type: int, student_id: int):
-    pass
 
-
+# Main Code
 
 student_id = -2
 
@@ -88,16 +112,19 @@ while True:
         print("Invalid Student ID.")
         print("Re-executing.")
     elif student_exists(student_id=student_id):
-        display_main_menu(active_student=student_id)
         break
     elif student_id == -1:
         student_id = create_student()
-        display_main_menu(active_student=student_id)
         break
     else:
         clear_screen()
         print("The provided Student ID does NOT exists.")
         print("Re-executing.")
+
+while True:
+    print("#########")
+    display_main_menu(active_student=student_id)
+    parse_user_input()
 
 
 

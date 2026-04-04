@@ -33,11 +33,11 @@ INSERT INTO Student (first_name, last_name) VALUES ('Diana',  'Lee');
 INSERT INTO Student (first_name, last_name) VALUES ('Ethan',  'Brown');
 
 
-INSERT INTO Courses (course_name, credits) VALUES ('Database Systems', 3);
-INSERT INTO Courses (course_name, credits) VALUES ('DevOps', 3);
-INSERT INTO Courses (course_name, credits) VALUES ('Calculus I', 4);
-INSERT INTO Courses (course_name, credits) VALUES ('English Composition', 3);
-INSERT INTO Courses (course_name, credits) VALUES ('Data Structures and Algorithms', 3);
+INSERT INTO Courses (course_name, credits) VALUES ('database systems', 3);
+INSERT INTO Courses (course_name, credits) VALUES ('devOps', 3);
+INSERT INTO Courses (course_name, credits) VALUES ('calculus I', 4);
+INSERT INTO Courses (course_name, credits) VALUES ('computer systems', 3);
+INSERT INTO Courses (course_name, credits) VALUES ('data structures and algorithms', 3);
 
 
 INSERT INTO Enrollments (student_id, course_id) VALUES (1, 1);
