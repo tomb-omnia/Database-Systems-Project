@@ -54,6 +54,8 @@ def parse_user_input(student_id) -> None:
             withdraw_student(student_id)
         case "e":
             enroll_student(student_id)
+        case _:
+            print("Invalid Option")
 
 
 def display_main_menu(active_student: int) -> None:

@@ -1,9 +1,16 @@
 from data_ops import *
-
+import argparse
 
 student_id = -2
 
-initalize_database()
+parser = argparse.ArgumentParser(description="Montclair State University Student & Course Database\nBy Joseph Enigam")
+parser.add_argument("--dev", action="store_true", help="Clears and rebuilds the database on each run")
+args = parser.parse_args()
+
+if args.dev:
+    initalize_database()
+else:
+    print("Running in production mode, the database will not be reset on each successive execution of this python script.")
 
 while True:
     try:
